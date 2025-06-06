@@ -1,10 +1,10 @@
 const PublicKey = require('../models/PublicKey');
 const crypto = require('crypto');
 
-// Validate public key
+
 const validatePublicKey = (publicKey) => {
   try {
-    // Validate public key input
+    
     if (!publicKey || typeof publicKey !== 'string') {
       throw new Error('Public key is empty or not a string');
     }
@@ -12,7 +12,7 @@ const validatePublicKey = (publicKey) => {
       throw new Error('Public key is not in valid PEM format');
     }
 
-    // Verify cryptographic integrity
+    
     crypto.createPublicKey(publicKey);
 
     console.log('Public key validation: Success', {
@@ -30,7 +30,7 @@ const validatePublicKey = (publicKey) => {
   }
 };
 
-// Store or update public key
+
 const storePublicKey = async (req, res) => {
   try {
     const { userId, publicKey } = req.body;
@@ -43,7 +43,7 @@ const storePublicKey = async (req, res) => {
       timestamp: new Date().toISOString(),
     });
 
-    // Validate inputs
+    
     if (!userId || !publicKey) {
       console.warn('Missing required fields:', {
         userId,
@@ -63,7 +63,7 @@ const storePublicKey = async (req, res) => {
       return res.status(403).json({ message: 'Provided userId does not match authenticated user' });
     }
 
-    // Validate public key
+    
     try {
       validatePublicKey(publicKey);
     } catch (error) {
@@ -76,7 +76,7 @@ const storePublicKey = async (req, res) => {
       return res.status(400).json({ message: `Invalid public key: ${error.message}` });
     }
 
-    // Store or update public key
+    
     const existingKey = await PublicKey.findOne({ userId });
     if (existingKey) {
       existingKey.publicKey = publicKey;
@@ -113,7 +113,7 @@ const storePublicKey = async (req, res) => {
   }
 };
 
-// Get public key by user ID
+
 const getPublicKey = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -125,7 +125,7 @@ const getPublicKey = async (req, res) => {
       timestamp: new Date().toISOString(),
     });
 
-    // Validate inputs
+    
     if (!userId) {
       console.warn('Missing userId:', {
         authenticatedUserId,
@@ -134,7 +134,7 @@ const getPublicKey = async (req, res) => {
       return res.status(400).json({ message: 'userId is required' });
     }
 
-    // Check authorization
+    
     if (userId !== authenticatedUserId) {
       console.warn('User ID mismatch:', {
         providedUserId: userId,
@@ -144,7 +144,7 @@ const getPublicKey = async (req, res) => {
       return res.status(403).json({ message: 'Not authorized to access this public key' });
     }
 
-    // Find public key
+    
     const publicKeyRecord = await PublicKey.findOne({ userId });
     if (!publicKeyRecord) {
       console.warn('Public key not found:', {

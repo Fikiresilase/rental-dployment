@@ -82,7 +82,7 @@ const propertySchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Index for search functionality
+
 propertySchema.index({ 
   title: 'text', 
   description: 'text',

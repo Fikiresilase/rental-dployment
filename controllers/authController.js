@@ -1,9 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-
 const JWT_SECRET = process.env.JWT_SECRET || 'your_default_jwt_secret_key_123';
-
 
 const register = async (req, res) => {
   try {
@@ -23,6 +21,9 @@ const register = async (req, res) => {
 
     
     if (req.files) {
+      if (req.files.profilePicture) {
+        profile.avatar = req.files.profilePicture[0].path;
+      }
       if (req.files.frontId) {
         profile.frontId = req.files.frontId[0].path;
       }
@@ -82,24 +83,20 @@ const register = async (req, res) => {
   }
 };
 
-
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    
     const token = jwt.sign(
       { userId: user._id },
       JWT_SECRET,
@@ -117,10 +114,9 @@ const login = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ message: 'Error logging in' + error.message , error: error.message });
+    res.status(500).json({ message: 'Error logging in', error: error.message });
   }
 };
-
 
 const getCurrentUser = async (req, res) => {
   try {
@@ -135,4 +131,4 @@ module.exports = {
   register,
   login,
   getCurrentUser
-}; 
+};

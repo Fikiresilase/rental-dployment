@@ -125,6 +125,7 @@ const getProperties = async (req, res) => {
       sortOrder = 'desc',
       ownerOnly,
       ownerId,
+      status,
     } = req.query;
 
     const filter = {};
@@ -144,6 +145,10 @@ const getProperties = async (req, res) => {
     if (ownerId) {
       console.log(ownerId, 'OWNER ID IS');
       filter.ownerId = ownerId;
+    }
+    if (status) {
+      console.log(ownerId, 'OWNER ID IS');
+      filter.status = status;
     }
 
     const skip = (page - 1) * limit;

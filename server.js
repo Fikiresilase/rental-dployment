@@ -17,6 +17,7 @@ const dealRoutes = require('./routes/deal');
 const keyRoutes = require('./routes/keys');
 const paymentRoutes = require('./routes/payment');
 const Property = require('./models/Property');
+const {transporter}= require('./controllers/authController')
  
 
 dotenv.config();
@@ -175,6 +176,35 @@ io.on('connection', (socket) => {
       await newMessage.populate('senderId', 'email profile');
       await newMessage.populate('receiverId', 'email profile');
 
+      //send email to the user when new message received
+      try {
+        if (newMessage.receiverId?.email) {
+          const senderName = newMessage.senderId?.profile?.name || 'a user';
+          const messagePreview = newMessage.content.length > 100
+            ? newMessage.content.slice(0, 100) + '...'
+            : newMessage.content;
+          const mailOptions= {
+              from: '"MuluCareer" <yenatcreation@gmail.com>',
+              to: newMessage.receiverId.email,
+              subject: 'You Have a New Message on Easy Rent',
+              text: `Hi, you have received a new message from ${senderName}: ${messagePreview}`,
+              html: `
+                <h2>New Message Received</h2>
+                <p>You have a new message from <strong>${senderName}</strong>:</p>
+                <blockquote style="color:#444;border-left:3px solid #ccc;padding-left:10px;">
+                  ${messagePreview}
+                </blockquote>
+                <p><a href="http://localhost:3000/chat">Click here to reply</a></p>
+                <p style="font-size:small;color:#999;">This is an automated message from Easy Rent.</p>
+              `,
+            }
+          await transporter.sendMail(mailOptions);
+          console.log(`email sent to the user ${newMessage.receiverId.email}, to notify new message!`)
+        }
+      } catch (error) {
+        console.warn(`problem while sending email, ${error}`)
+      }
+
       // Log clients map for debugging
       console.log('Clients map status', {
         receiverId: data.to,
@@ -271,7 +301,7 @@ app.use((err, req, res, next) => {
 });
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/gebeya-home-rental')
-  .then(() => {
+  .then(() => { 
     console.log('Connected to MongoDB', { timestamp: new Date().toISOString() });
     
     const PORT = process.env.PORT || 5000;

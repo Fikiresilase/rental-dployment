@@ -120,7 +120,7 @@ const getProperties = async (req, res) => {
       location,
       floors,
       page = 1,
-      limit = 10,
+      limit = 6,
       sortBy = 'createdAt',
       sortOrder = 'desc',
       ownerOnly,

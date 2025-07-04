@@ -43,7 +43,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: 'https://easy-rent-two.vercel.app',
     methods: ['GET', 'POST'],
     allowedHeaders: ['Authorization'],
   },
@@ -269,7 +269,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://easy-rent-two.vercel.app/',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));

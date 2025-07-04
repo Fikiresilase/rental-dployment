@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Deal = require('../models/Deal');
 const Property = require('../models/Property');
 const PublicKey = require('../models/PublicKey');
-const CryptoService = require('../services/CryptoService');
+const CryptoService = require('../services/cryptoService');
 
 const createDeal = async (req, res) => {
   try {

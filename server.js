@@ -300,7 +300,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/gebeya-home-rental')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://noahkelemework:noatsign@cluster0.ompohqz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
   .then(() => { 
     console.log('Connected to MongoDB', { timestamp: new Date().toISOString() });
     

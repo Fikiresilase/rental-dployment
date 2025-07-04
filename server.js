@@ -269,7 +269,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.use(cors({
-  origin: 'https://easy-rent-two.vercel.app/',
+  origin: 'https://easy-rent-two.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));

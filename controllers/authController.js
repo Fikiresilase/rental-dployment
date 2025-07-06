@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: 'noahkelemework@gmsil.com',
+    user: 'noahkelemework@gmail.com',
     pass: 'arjjjllnqsjoozlk'
 
   },
@@ -40,7 +40,7 @@ const sendOtp = async (req, res) => {
     );
 
     const mailOptions = {
-      from: '"MuluCareer" <yenatcreation@gmail.com>',
+      from: 'noahkelemework@gmail.com',
       to: email,
       subject: 'Registration OTP',
       text: `Your OTP for registration is: ${otp}\nThis OTP is valid for 10 minutes.`,

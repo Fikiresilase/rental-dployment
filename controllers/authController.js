@@ -6,9 +6,7 @@ const bcrypt = require('bcryptjs');
 const JWT_SECRET = process.env.JWT_SECRET || 'your_default_jwt_secret_key_123';
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
+  host: 'gmail',
   auth: {
     user: 'noahkelemework@gmail.com',
     pass: 'arjjjllnqsjoozlk'
@@ -27,11 +25,12 @@ const sendOtp = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
+    
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const hashedOTP = await bcrypt.hash(otp, 10);
     const otpExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
-
+    
     // Temporarily store OTP in User model
     await User.updateOne(
       { email },

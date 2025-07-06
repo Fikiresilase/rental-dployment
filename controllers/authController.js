@@ -6,11 +6,12 @@ const bcrypt = require('bcryptjs');
 const JWT_SECRET = process.env.JWT_SECRET || 'your_default_jwt_secret_key_123';
 
 const transporter = nodemailer.createTransport({
-  host: 'gmail',
+  host: 'smtp.gmail.com', // Correct Gmail SMTP host
+  port: 587, // Use 587 for STARTTLS or 465 for SSL
+  secure: false, // false for port 587 (STARTTLS), true for port 465 (SSL)
   auth: {
     user: 'noahkelemework@gmail.com',
-    pass: 'rcqxwkrhdxzxtsrv'
-
+    pass: 'rcqxwkrhdxzxtsrv', // Ensure this is a valid app-specific password
   },
 });
 

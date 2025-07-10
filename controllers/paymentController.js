@@ -10,8 +10,8 @@ const initiatePayment = async (req, res) => {
     }
     const tx_ref = `property-${user.id}-${Date.now()}`;
     const amount = 10;
-    const callback_url = `http://localhost:5000/api/payment/verify-payment/${tx_ref}`;
-    const return_url = `http://localhost:3000/payment-success?tx_ref=${tx_ref}`;
+    const callback_url = `https://rental-dployment.onrender.com/api/payment/verify-payment/${tx_ref}`;
+    const return_url = `https://easy-rent-two.vercel.app/payment-success?tx_ref=${tx_ref}`;
     const data = {
       amount: amount.toString(),
       currency: 'ETB',

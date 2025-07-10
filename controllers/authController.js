@@ -206,7 +206,7 @@ const forgotPassword = async (req, res) => {
     await user.save();
 
     const mailOptions = {
-      from: '"MuluCareer" <yenatcreation@gmail.com>',
+      from: 'noahkelemework',
       to: user.email,
       subject: 'Password Reset OTP',
       text: `Your OTP for password reset is: ${otp}\nThis OTP is valid for 10 minutes.`,
